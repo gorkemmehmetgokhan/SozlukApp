@@ -1,0 +1,34 @@
+﻿@using SozlukApp.Entity
+@model IEnumerable<User>
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<table class="table table-hover">
+    <tr>
+        <th>@Html.DisplayNameFor(t => t.UserRoleId)</th>
+        <th>@Html.DisplayNameFor(t => t.Username)</th>
+        <th>@Html.DisplayNameFor(t => t.Email)</th>
+        <th>@Html.DisplayNameFor(t => t.Password)</th>
+        <th>@Html.DisplayNameFor(t => t.Gender)</th>
+        <th>@Html.DisplayNameFor(t => t.Birthday)</th>
+        <th>Düzenle</th>
+    </tr>
+    @foreach (User item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(t => item.UserRoleId)</td>
+            <td>@Html.DisplayFor(t => item.Username)</td>
+            <td>@Html.DisplayFor(t => item.Email)</td>
+            <td>@Html.DisplayFor(t => item.Password)</td>
+            <td>@Html.DisplayFor(t => item.Gender)</td>
+            <td>@Html.DisplayFor(t => item.Birthday)</td>
+            
+            <td>
+                <a href="~/Admin/User/Delete/@item.UserId" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+    }
+</table>

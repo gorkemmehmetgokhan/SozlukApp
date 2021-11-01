@@ -1,0 +1,36 @@
+﻿@using SozlukApp.Entity
+@using SozlukApp.Repository
+@model  Entry
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_ProfileLayout.cshtml";
+}
+
+<h2>Entry Düzenle</h2>
+
+
+@using(Html.BeginForm("Edit", "Profile", FormMethod.Post))
+{
+
+    @Html.HiddenFor(model => model.EntryId)
+    @Html.HiddenFor(model => model.UserId)
+    @Html.HiddenFor(model => model.HeaderId)
+    @Html.HiddenFor(model => model.Posttime)
+    @Html.HiddenFor(model => model.LikeCount)
+    @Html.HiddenFor(model => model.UnlikeCount)
+
+    HeaderRepository hr = new HeaderRepository();
+
+    <fieldset>
+          
+        <div>
+            @Html.TextAreaFor(model => model.Text, new { rows = "6", cols = "100" })
+        </div>
+        <hr />
+        <div>
+            <input type="submit" class="btn btn-success" value="Düzenle" />
+            <a href="~/Profile/Index" class="btn btn-default">Vazgeç</a>
+        </div>
+    </fieldset>
+}

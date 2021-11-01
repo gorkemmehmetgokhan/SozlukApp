@@ -1,0 +1,173 @@
+﻿
+@{
+    ViewBag.Title = "SignUp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/Registration.css" rel="stylesheet" />
+<script src="~/Content/Registration.js"></script>
+
+<form id="myform" class="form-signin" method="post" action="~/Home/SignUp"  new { enctype = "multipart/form-data" }>
+
+    <div class="container" style="font-size:15px;margin-left:-150px">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 boxStyle" style="padding-right: 0px!important;padding-left: 0px!important;">
+                <div class="panel-body" style="padding-right: 4px!important;padding-left: 4px!important;">                 
+                    <fieldset class="landscape_nomargin" style="min-width: 0;padding:    .35em .625em .75em!important;margin:0 2px;border: 2px solid silver!important;margin-bottom: 10em;">
+                        <legend style="border-bottom: none;width: inherit;!important;padding:inherit;" class="legend">Hemen Kayıt Ol</legend>
+
+                        <div class="form-group">
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12" style="text-align: right!important;">
+                                <span style="color: red">*</span> <span style="font-size: 10pt;">Zorunlu Alan</span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0px;">
+                            <div class="col-sm-4 col-md-4 col-lg-5 col-xs-1"></div><div class="col-sm-8 col-md-8 col-lg-7 col-xs-10 mobilePad" id="message10" style="font-size: 10pt;padding-left: 0px;"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                            <div class="col-sm-3 col-md-3 col-lg-4 col-xs-10 mobileLabel" style="padding-top:7px; text-align:right;">
+                                Kullanıcı Adı <span style="color: red">*</span> :
+                            </div>
+
+                            <div class="col-sm-7 col-md-7 col-lg-6 col-xs-9 input-group mobilePad" style="font-weight:600;font-size:12pt">
+
+                                <input style="border-radius: 4px!important;" type="text" class="form-control" name="Username" id="username">
+
+                            </div>
+                            <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                            <div class="col-sm-3 col-md-3 col-lg-4 col-xs-10 mobileLabel" style="padding-top:7px; text-align:right;">
+                                Email <span style="color: red">*</span> :
+                            </div>
+
+                            <div class="col-sm-7 col-md-7 col-lg-6 col-xs-9 input-group mobilePad" style="font-weight:600;">
+
+                                <input style="border-radius: 4px!important;" type="email" class="form-control" name="Email" id="yourEmail">
+
+                            </div>
+                            <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                        </div>
+                 
+                        <div class="form-group " style="margin-bottom:5px;">
+                            <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                            <div class="col-sm-3 col-md-3 col-lg-4 col-xs-10 mobileLabel" style="padding-top:7px;text-align:right;">
+                                Şifre <span style="color: red">*</span> :
+                            </div>
+
+                            <div class="col-sm-7 col-md-7 col-lg-6 col-xs-9 input-group mobilePad">
+
+                                <input type="password" onkeyup="passwordChecker()" name="Password" id="password" class="form-control"><span class="input-group-btn">
+                                    <button class="btn btn-defaultCUST" id="view_button3" style="height:34px;padding-left:7px;" type="button">
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                    </button>
+                                </span>
+
+                            </div>
+                            <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+
+                        </div>
+                        <div class="form-group" style="margin-bottom:5px;">
+                            <div class="col-sm-4 col-md-4 col-lg-5 col-xs-1"></div><div class="col-sm-8 col-md-8 col-lg-7 col-xs-10 mobilePad" id="message8" style="font-size:10pt;padding-left:0px;"></div>
+                            <div class="col-sm-4 col-md-4 col-lg-5 col-xs-1"></div><div class="col-sm-8 col-md-8 col-lg-7 col-xs-10 mobilePad" id="message" style="font-size:10pt;"></div>
+                            <div class="col-sm-4 col-md-4 col-lg-5 col-xs-1"></div><div class="col-sm-8 col-md-8 col-lg-7 col-xs-10 mobilePad" id="message2" style="font-size:10pt;"></div>
+                            <div class="col-sm-4 col-md-4 col-lg-5 col-xs-1"></div><div class="col-sm-8 col-md-8 col-lg-7 col-xs-10 mobilePad" id="message3" style="font-size:10pt;"></div>
+                            <div class="col-sm-4 col-md-4 col-lg-5 col-xs-1"></div><div class="col-sm-8 col-md-8 col-lg-7 col-xs-10 mobilePad" id="message4" style="font-size:10pt;"></div>
+                            <div class="col-sm-4 col-md-4 col-lg-5 col-xs-1"></div><div class="col-sm-8 col-md-8 col-lg-7 col-xs-10 mobilePad" id="message5" style="font-size:10pt;"></div>
+                            <div class="col-sm-4 col-md-4 col-lg-5 col-xs-1"></div><div class="col-sm-8 col-md-8 col-lg-7 col-xs-10 mobilePad" id="message6" style="font-size: 10pt;padding-left: 0px;"></div>
+                            <div class="col-sm-4 col-md-4 col-lg-5 col-xs-1"></div><div class="col-sm-8 col-md-8 col-lg-7 col-xs-10 mobilePad" id="message7" style="font-size :10pt;padding-left:0px;"></div>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                            <div class="col-sm-3 col-md-3 col-lg-4 col-xs-10 mobileLabel" style="padding-top:7px;text-align:right;">
+                                Şifre Tekrarı <span style="color: red">*</span> :
+                            </div>
+
+                            <div class="col-sm-7 col-md-7 col-lg-6 col-xs-9 input-group mobilePad">
+
+                                <input type="password" name="verifypassword" id="verifypassword" class="form-control"><span class="input-group-btn">
+                                    <button class="btn btn-defaultCUST" id="view_button4" style="height:34px;padding-left:7px;" type="button">
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                    </button>
+                                </span>
+
+                            </div>
+                            <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                            <div class="col-sm-3 col-md-3 col-lg-4 col-xs-10 mobileLabel" style="padding-top:7px; text-align:right;">
+                                Cinsiyet <span style="color: red">*</span> :
+                            </div>
+
+                            <div class="col-sm-7 col-md-7 col-lg-6 col-xs-9 input-group mobilePad" style="font-weight:600;">
+
+                                <div class="radios">
+                                    <label class="label_radio col-lg-3 col-sm-3" for="radio-01">
+                                        <input name="sampleradio" id="radioMale" value="Male" type="radio" checked /> Erkek
+                                    </label>
+                                    <label class="label_radio col-lg-3 col-sm-3" for="radio-02">
+                                        <input name="sampleradio" id="radioFemale" value="Female" type="radio" /> Kadın
+                                    </label>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                            <div class="col-sm-3 col-md-3 col-lg-4 col-xs-10 mobileLabel" style="padding-top:7px; text-align:right;">
+                                Resim <span style="color: red"> </span> :
+                            </div>
+
+                            <div class="col-sm-7 col-md-7 col-lg-6 col-xs-9 input-group mobilePad" style="font-weight:600;">
+
+                                <div>
+                                    <input type="file" name="photo"/>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                            <div class="col-sm-3 col-md-3 col-lg-4 col-xs-10 mobileLabel" style="padding-top:7px; text-align:right;">
+                                Doğum Tarihi <span style="color: red">*</span> :
+                            </div>
+
+                            <div class="col-sm-7 col-md-7 col-lg-6 col-xs-9 input-group mobilePad" style="font-weight:600;">
+
+                               <input style="float:left" type="date" name="Birthday"/>
+
+                            </div>
+                            <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                        </div>
+
+                        @*<label class="checkbox">
+                            <input type="checkbox" value="agree this condition"  name="yourConfirm" id="yourConfirm"> Kullanıcı sözleşmesini okudum ve kabul ediyorum.
+                        </label>*@
+
+                        <div class="form-group">
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12" id="message1" style="font-weight: bold; text-align:center;font-size: 10pt;">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                            <div class="col-sm-11 col-md-11 col-lg-11 col-xs-10" style="text-align:right;float:right">
+
+                                <a href="javascript: submitForm()" class="btn btn-success">Kayıt Ol</a>
+                            </div>
+                            <div class="col-sm-1 col-md-1 col-lg-1 col-xs-1"></div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

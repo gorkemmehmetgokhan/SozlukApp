@@ -1,0 +1,33 @@
+﻿@using SozlukApp.Models.ViewModel
+@using SozlukApp.Entity
+@model EntryViewModel
+
+@{
+    ViewBag.Title = "AddHeader";
+    Layout = "~/Views/Shared/_ProfileLayout.cshtml";
+}
+
+
+@using (Html.BeginForm("AddHeader", "Profile", FormMethod.Post))
+{
+
+    <fieldset>
+        <legend>Başlık Ekle</legend>
+       
+        <div>
+            <label>Topic</label>
+        </div>
+        <div>
+            @Html.DropDownListFor(model => model.Header.TopicId, Model.TopicList)
+        </div>
+        <hr />
+        <div>
+            @Html.TextAreaFor(model => model.Header.Name, new { required = "required", rows = "1", cols = "50" })
+        </div>
+        <hr />
+        <div>
+            <input type="submit" class="btn btn-success" value="Ekle" />
+            <a href="~/Profile/Index" class="btn btn-default">Vazgeç</a>
+        </div>
+    </fieldset>
+}

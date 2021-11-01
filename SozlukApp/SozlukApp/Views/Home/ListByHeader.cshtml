@@ -1,0 +1,102 @@
+﻿@using SozlukApp.Entity
+@using SozlukApp.Repository
+@using PagedList.Mvc
+
+@model PagedList.IPagedList<SozlukApp.Entity.Entry>
+
+
+@{
+    ViewBag.Title = "ListbyHeader";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<span style="float:right">
+
+    @Html.PagedListPager(Model, page => Url.Action("ListByHeader", new { page, pageSize = Model.PageSize }))
+
+</span>
+
+@{
+    DB_DictionaryEntities db = new DB_DictionaryEntities();
+    TopicRepository tr = new TopicRepository();
+    HeaderRepository hr = new HeaderRepository();
+    UserRepository ur = new UserRepository();
+
+
+    <br /><br /><br /><br />
+    <div class="container" style="font-size:15px;width:800px">
+
+        <h4 class="media-heading">
+            @if (Session["HeaderId"] != null)
+            {
+                @hr.GetObjById(Convert.ToInt32(Session["HeaderId"])).Name
+            }
+        </h4>
+        <br />
+
+        @foreach (var entry in Model)
+        {
+            <div class="well">
+                <div class="media">
+                    <div class="media-body">
+
+                        @if (User.Identity.IsAuthenticated && entry.UserId == Convert.ToInt32(User.Identity.Name))
+                        {
+                            <a href="~/Profile/myPage/@User.Identity.Name"><p class="text-right">@ur.GetObjById(Convert.ToInt32(entry.UserId)).Username</p></a>
+                        }
+
+                        @if (User.Identity.IsAuthenticated && entry.UserId != Convert.ToInt32(User.Identity.Name))
+                        {
+                            <a href="~/Profile/userPage/@entry.UserId"><p class="text-right">@ur.GetObjById(Convert.ToInt32(entry.UserId)).Username</p></a>
+                        }
+
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <a href="~/Profile/userPage/@entry.UserId"><p class="text-right">@ur.GetObjById(Convert.ToInt32(entry.UserId)).Username</p></a>
+                        }
+
+                        <p style="float:left">
+                            @entry.Text
+                        </p>
+                        <ul class="list-inline list-unstyled" style="float:right">
+                            <li><span><i class="glyphicon glyphicon-calendar"></i> @entry.Posttime</span></li>
+                            <li>|</li>
+                            <a href="~/Home/Like/@entry.EntryId"><i class="glyphicon glyphicon-thumbs-up"></i></a> (@entry.LikeCount)
+                            <a href="~/Home/Dislike/@entry.EntryId"><i class="glyphicon glyphicon-thumbs-down"></i></a> (@entry.UnlikeCount)
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+<form method="post" action="~/Home/EntryAdd" new { enctype="multipart/form-data" }>
+
+    <input name="UserId" value="@User.Identity.Name" class="hide" />
+    <input name="HeaderId" value="@ViewBag.header" class="hide" />
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <textarea style="margin-left:15px;height:150px" id="form_message" name="Text" class="form-control" placeholder="Konu hakkında yorumunu yaz.." rows="4" required="required" data-error="Please,leave us a message."></textarea>
+                    <div class="help-block with-errors"></div>
+                </div>
+            </div>
+            <div style="float:right">
+                <input type="submit" class="btn btn-default btn-send" value="Yorum Yap">
+            </div>
+        </div>
+    }
+    else
+    {
+        <p style="color:green">Bu başlığa entry girmek için oturum açınız.</p>
+    }
+
+</form>
+<br />
+
+<span style="float:right">
+    @Html.PagedListPager(Model, page => Url.Action("ListByHeader", new { page, pageSize = Model.PageSize }))
+</span>

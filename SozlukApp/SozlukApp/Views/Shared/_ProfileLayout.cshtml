@@ -1,0 +1,100 @@
+﻿@using SozlukApp.Entity
+@using SozlukApp.Repository
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Profil</title>
+    <!-- FONTS --><!-- Roboto, Yellowtail, and Montserrat -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Roboto:300,400|Yellowtail" rel="stylesheet">
+
+
+    <link href="~/Content/Profile.css" rel="stylesheet" />
+    <script src="~/Content/Profile.js"></script>
+    <script src="~/Content/minimal/theme/assets/js/jquery.min.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+</head>
+<body>
+    <!-- PAGE STUFF -->
+    <div class="overlay">
+        <div class="abs-center overlay-card">
+            <div class="close">X</div><div class="floated overlay-image">
+                <div class="abs-center post-image"></div>
+            </div>
+            <div class="floated overlay-desc">
+                <div class="rela-block desc-title"></div>
+                <div class="rela-block desc-author"></div><div class="rela-block desc-desc"></div>
+            </div>
+        </div>
+    </div><div class="nav-bar">
+        <div class="horz-center nav-container">
+            @*<div class="floated logo">control flow</div>*@
+            <ul class="floated nav-div nav-links">
+                <a href="~/Home/Index"><li class="rela-inline">Anasayfa</li> </a> 
+                <a href="~/Profile/AddHeader"><li class="rela-inline">Başlık Gir</li> </a> 
+                <a href="~/Profile/AddEntry"><li class="rela-inline">Entry Gir</li> </a>   
+                </ul>
+            @*<ul class="floated nav-div">
+                <li class="rela-inline menu-toggle">•••</li>
+            </ul>*@
+            <div class="floated right nav-div search-container">
+                <div class="rela-inline icon search-icon"></div>
+                <input type="text" placeholder="Ara" class="rela-inline nav-search" />
+            </div>
+            
+            <div class="menu-card" style="margin-left:-400px">
+                <div class="abs-center menu-background"></div>             
+            </div>
+        </div>
+    </div>
+    <div class="rela-block container">
+        @{
+
+            DB_DictionaryEntities db = new DB_DictionaryEntities();
+            User user = new User();
+            EntryRepository er = new EntryRepository();
+
+            int id = Convert.ToInt32(User.Identity.Name);
+            user.Username = db.Users.Where(x => x.UserId == id).Select(x => x.Username).First().ToString();
+            user.Email = db.Users.Where(x => x.UserId == id).Select(x => x.Email).First().ToString();
+            user.Photo = db.Users.Where(x => x.UserId == id).Select(x => x.Photo).First().ToString();
+
+            <div class="rela-block profile-card">
+
+                @if (user.Photo == 0.ToString())
+                {
+                    <img src="~/Images/user.png" alt="" id="profile_pic" class="profile-pic">
+                }
+                <img src="~/Images/@user.Photo" alt="" id="profile_pic" class="profile-pic">
+                <div class="rela-block profile-name-container">
+                    <div class="rela-block user-name" id="user_name">@user.Username</div>
+                    <div class="rela-block user-desc" id="user_description">@user.Email</div>
+                </div>
+                <div class="rela-block profile-card-stats">
+                    <div class="floated profile-stat works" id="num_works">@er.List().Where(t => t.UserId == Convert.ToInt32(User.Identity.Name)).Count()<br></div>
+                    <div class="floated profile-stat followers" id="num_followers">@er.List().Where(t => t.UserId == Convert.ToInt32(User.Identity.Name)).Sum(t=>t.LikeCount)<br></div>
+                    <div class="floated profile-stat following" id="num_following">@er.List().Where(t => t.UserId == Convert.ToInt32(User.Identity.Name)).Sum(t => t.UnlikeCount)<br></div>
+                </div>
+            </div>
+        }     
+        <div class="rela-block content" style="margin-left:40px">
+
+            @RenderBody()
+
+        </div>       
+    </div>
+    <div class="rela-block footer">
+        
+    </div>
+
+    <script src="~/Content/Profile.js"></script>
+</body>
+</html>
+

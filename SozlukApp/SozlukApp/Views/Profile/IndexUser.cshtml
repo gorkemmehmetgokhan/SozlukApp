@@ -1,0 +1,150 @@
+﻿@using SozlukApp.Entity
+@using SozlukApp.Repository
+@model IEnumerable<Entry>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Profil</title>
+    <!-- FONTS --><!-- Roboto, Yellowtail, and Montserrat -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Roboto:300,400|Yellowtail" rel="stylesheet">
+
+    <link href="~/Content/Profile.css" rel="stylesheet" />
+    <script src="~/Content/Profile.js"></script>
+    <script src="~/Content/minimal/theme/assets/js/jquery.min.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+    <script src="~/Content/jquery.simplePagination.js"></script>
+    <link href="~/Content/simplePagination.css" rel="stylesheet" />
+    <script src="~/Content/entryPaging.js"></script>
+
+</head>
+<body>
+    <!-- PAGE STUFF -->
+    <div class="overlay">
+        <div class="abs-center overlay-card">
+            <div class="close">X</div><div class="floated overlay-image">
+                <div class="abs-center post-image"></div>
+            </div>
+            <div class="floated overlay-desc">
+                <div class="rela-block desc-title"></div>
+                <div class="rela-block desc-author"></div><div class="rela-block desc-desc"></div>
+            </div>
+        </div>
+    </div><div class="nav-bar">
+        <div class="horz-center nav-container">
+            @*<div class="floated logo">control flow</div>*@
+            <ul class="floated nav-div nav-links">
+                <a href="~/Home/Index"><li class="rela-inline">Anasayfa</li> </a>
+            </ul>
+            @*<ul class="floated nav-div">
+                    <li class="rela-inline menu-toggle">•••</li>
+                </ul>*@
+            <div class="floated right nav-div search-container">
+                <div class="rela-inline icon search-icon"></div>
+                <input type="text" placeholder="Ara" class="rela-inline nav-search" />
+            </div>
+
+            <div class="menu-card" style="margin-left:-400px">
+                <div class="abs-center menu-background"></div>
+            </div>
+        </div>
+    </div>
+    <div class="rela-block container">
+        @{
+
+            DB_DictionaryEntities db = new DB_DictionaryEntities();
+            User user = new User();
+            EntryRepository er = new EntryRepository();
+
+            int id = ViewBag.UserID;
+
+            user.Username = db.Users.Where(x => x.UserId == id ).Select(x => x.Username).FirstOrDefault().ToString();
+            user.Email = db.Users.Where(x => x.UserId == id).Select(x => x.Email).First().ToString();
+            user.Photo = db.Users.Where(x => x.UserId == id).Select(x => x.Photo).First().ToString();
+
+            <div class="rela-block profile-card">
+                @if (user.Photo == 0.ToString())
+                {
+                    <img src="~/Images/user.png" alt="" id="profile_pic" class="profile-pic">
+                }
+                <img src="~/Images/@user.Photo" alt="" id="profile_pic" class="profile-pic">
+                <div class="rela-block profile-name-container">
+                    <div class="rela-block user-name" id="user_name">@user.Username</div>
+                    <div class="rela-block user-desc" id="user_description">@user.Email</div>
+                </div>
+                <div class="rela-block profile-card-stats">
+                    <div class="floated profile-stat works" id="num_works">@er.List().Where(t => t.UserId == Convert.ToInt32(id)).Count()<br></div>
+                    <div class="floated profile-stat followers" id="num_followers">@er.List().Where(t => t.UserId == Convert.ToInt32(id)).Sum(t=>t.LikeCount)<br></div>
+                    <div class="floated profile-stat following" id="num_following">@er.List().Where(t => t.UserId == Convert.ToInt32(id)).Sum(t=>t.UnlikeCount)<br></div>
+                </div>
+            </div>
+        }
+        <div class="rela-block content" style="margin-left:40px">
+
+            <h2>Entry'lerim</h2>
+            @{
+               
+                TopicRepository tr = new TopicRepository();
+                HeaderRepository hr = new HeaderRepository();
+                UserRepository ur = new UserRepository();
+
+                <input style="position:absolute;text-align:center" type="text" id="myInput" onkeyup="myFunction()" placeholder="entry ara.." /><br /><br />
+
+
+                <table id="myTable" class="table table-hover">
+
+
+                    @foreach (var entry in Model)
+                    {
+
+                        <tr>
+                            <td>
+                                <div class="well">
+                                    <div class="media">
+                                        <a class="pull-left" href="#">
+
+                                        </a>
+                                        <div class="media-body">
+                                            <h4 class="media-heading">
+
+                                                @hr.List().FirstOrDefault(t => t.HeaderId == entry.HeaderId).Name
+                                            </h4>
+                                            <a href="#"><p class="text-right">@ur.GetObjById(Convert.ToInt32(id)).Username</p></a>
+                                            <p style="float:left">
+                                                @entry.Text
+                                            </p>
+                                            <ul class="list-inline list-unstyled" style="float:right">
+                                                <li><span><i class="glyphicon glyphicon-calendar"></i> @entry.Posttime</span></li>
+                                                <li>|</li>
+                                                <a href="~/Home/Like/@entry.EntryId"><i class="glyphicon glyphicon-thumbs-up"></i></a> (@entry.LikeCount)
+                                                <a href="~/Home/Dislike/@entry.EntryId"><i class="glyphicon glyphicon-thumbs-down"></i></a> (@entry.UnlikeCount)
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>                          
+                        </tr>
+
+                    }
+
+                </table>
+                <div style="position:absolute" class="pagination-page"></div>
+            }
+
+        </div>
+    </div>
+    <div class="rela-block footer">
+
+    </div>
+
+    <script src="~/Content/Profile.js"></script>
+</body>
+</html>
+

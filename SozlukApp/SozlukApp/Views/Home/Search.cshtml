@@ -1,0 +1,51 @@
+﻿
+@using SozlukApp.Repository
+
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Arama Sonucu</h2>
+
+<br />
+
+@foreach (var item in ViewBag.Header)
+{
+
+    <b>Başlık</b><a href="~/Home/ListByHeader/@item.HeaderId"><div>@item.Name</div> <hr /></a>
+}
+
+@foreach (var item in ViewBag.Text)
+{
+
+    <b>Entry</b><a href="~/Home/ListByHeader/@item.HeaderId"><div>@item.Text</div> <hr /></a>
+}
+
+
+
+@foreach (var item in ViewBag.Username)
+{
+    UserRepository ur = new UserRepository();
+
+    if (User.Identity.IsAuthenticated && item.UserId == Convert.ToInt32(User.Identity.Name))
+    {
+        <b>Yazar: </b><a href="~/Profile/myPage/@User.Identity.Name">@ur.GetObjById(Convert.ToInt32(item.UserId)).Username</a>
+    }
+  
+    if (User.Identity.IsAuthenticated && item.UserId != Convert.ToInt32(User.Identity.Name))
+    {
+        <b>Yazar: </b><a href="~/Profile/userPage/@item.UserId">@ur.GetObjById(Convert.ToInt32(item.UserId)).Username</a>
+    }
+
+    if (!User.Identity.IsAuthenticated)
+    {
+        <b>Yazar: </b><a href="~/Profile/userPage/@item.UserId">@ur.GetObjById(Convert.ToInt32(item.UserId)).Username</a>
+    }
+    <hr />
+}
+
+
+
+

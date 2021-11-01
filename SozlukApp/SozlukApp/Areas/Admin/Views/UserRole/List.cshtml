@@ -1,0 +1,29 @@
+﻿@using SozlukApp.Entity
+@model IEnumerable<UserRole>
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<table class="table table-hover">
+    <tr>
+        <th>@Html.DisplayNameFor(t => t.UserRoleId)</th> 
+        <th>@Html.DisplayNameFor(t => t.Name)</th>      
+        <th>Düzenle</th>
+    </tr>
+    @foreach (UserRole item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(t => item.UserRoleId)</td>
+            <td>@Html.DisplayFor(t => item.Name)</td>
+
+            <td>
+                <a href="~/Admin/UserRole/Edit/@item.UserRoleId" class="btn btn-success">Edit</a>
+                <a href="~/Admin/UserRole/Delete/@item.UserRoleId" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
+
+

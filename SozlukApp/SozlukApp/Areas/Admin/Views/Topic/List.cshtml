@@ -1,0 +1,26 @@
+﻿@using SozlukApp.Entity
+@model IEnumerable<Topic>
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<table class="table table-hover">
+    <tr>
+        <th>@Html.DisplayNameFor(t => t.Name)</th>
+        <th>Düzenle</th>
+    </tr>
+    @foreach (Topic item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(t => item.Name)</td>
+           
+            <td>
+                <a href="~/Admin/Topic/Edit/@item.TopicId" class="btn btn-success">Edit</a>
+                <a href="~/Admin/Topic/Delete/@item.TopicId" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
+

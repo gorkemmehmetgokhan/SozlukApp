@@ -1,0 +1,62 @@
+﻿@using SozlukApp.Repository
+@using SozlukApp.Entity
+@model IEnumerable<Header>
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    DB_DictionaryEntities db = new DB_DictionaryEntities();
+    EntryRepository er = new EntryRepository();
+    HeaderRepository hr = new HeaderRepository();
+    UserRepository ur = new UserRepository();
+
+    <h4>Öne Çıkanlar</h4>
+
+    <br />
+
+    foreach (var entry in er.List().OrderBy(t => Guid.NewGuid()).Take(5))
+    {
+        <div class="well">
+            <div class="media">
+                <a class="pull-left" href="#">
+
+                </a>
+                <div class="media-body">
+                    <h4 class="media-heading">
+
+                        @hr.List().FirstOrDefault(t => t.HeaderId == entry.HeaderId).Name
+                    </h4>
+
+                    @if (User.Identity.IsAuthenticated && entry.UserId == Convert.ToInt32(User.Identity.Name))
+                    {
+                        <a href="~/Profile/myPage/@User.Identity.Name"><p class="text-right">@ur.GetObjById(Convert.ToInt32(entry.UserId)).Username</p></a>
+                    }
+
+                    @if (User.Identity.IsAuthenticated && entry.UserId != Convert.ToInt32(User.Identity.Name))
+                    {
+                        <a href="~/Profile/userPage/@entry.UserId"><p class="text-right">@ur.GetObjById(Convert.ToInt32(entry.UserId)).Username</p></a>
+                    }
+
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <a href="~/Profile/userPage/@entry.UserId"><p class="text-right">@ur.GetObjById(Convert.ToInt32(entry.UserId)).Username</p></a>
+                    }
+                 
+                    <p style="float:left">
+                        @entry.Text
+                    </p>
+                    <ul class="list-inline list-unstyled" style="float:right">
+                        <li><span><i class="glyphicon glyphicon-calendar"></i> @entry.Posttime</span></li>
+                        <li>|</li>
+                        <a href="~/Home/Like/@entry.EntryId"><i class="glyphicon glyphicon-thumbs-up"></i></a> (@entry.LikeCount)
+                        <a href="~/Home/Dislike/@entry.EntryId"><i class="glyphicon glyphicon-thumbs-down"></i></a> (@entry.UnlikeCount)
+                    </ul>
+                </div>
+            </div>
+        </div>
+    }
+}

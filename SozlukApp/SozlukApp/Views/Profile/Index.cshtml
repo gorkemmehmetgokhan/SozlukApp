@@ -1,0 +1,67 @@
+﻿@using SozlukApp.Entity
+@using SozlukApp.Repository
+@model  IEnumerable<Entry>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_ProfileLayout.cshtml";
+}
+
+<script src="~/Content/jquery.simplePagination.js"></script>
+<link href="~/Content/simplePagination.css" rel="stylesheet" />
+<script src="~/Content/entryPaging.js"></script>
+
+<h2>Entry'lerim</h2>
+@{
+    DB_DictionaryEntities db = new DB_DictionaryEntities();
+
+    TopicRepository tr = new TopicRepository();
+    HeaderRepository hr = new HeaderRepository();
+    UserRepository ur = new UserRepository();
+    
+    <input style="position:absolute;text-align:center" type="text" id="myInput" onkeyup="myFunction()" placeholder="entry ara.." /><br /><br />
+
+
+    <table id="myTable" class="table table-hover">
+       
+
+        @foreach (var entry in Model)
+        {
+
+            <tr>
+                <td>
+                    <div class="well">
+                        <div class="media">
+                            <a class="pull-left" href="#">
+
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading">
+
+                                    @hr.List().FirstOrDefault(t => t.HeaderId == entry.HeaderId).Name
+                                </h4>
+                                <a href="#"><p class="text-right">@ur.GetObjById(Convert.ToInt32(entry.UserId)).Username</p></a>
+                                <p style="float:left">
+                                    @entry.Text
+                                </p>
+                                <ul class="list-inline list-unstyled" style="float:right">
+                                    <li><span><i class="glyphicon glyphicon-calendar"></i> @entry.Posttime</span></li>
+                                    <li>|</li>
+                                    <a href="~/Home/Like/@entry.EntryId"><i class="glyphicon glyphicon-thumbs-up"></i></a> (@entry.LikeCount)
+                                    <a href="~/Home/Dislike/@entry.EntryId"><i class="glyphicon glyphicon-thumbs-down"></i></a> (@entry.UnlikeCount)
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <a href="~/Profile/Edit/@entry.EntryId" class="btn btn-success">Düzenle</a>
+
+                </td>
+                <td><a href="~/Profile/Delete/@entry.EntryId" class="btn btn-danger">Sil</a></td>
+            </tr>
+
+        }
+       
+    </table>
+    <div style="position:absolute" class="pagination-page"></div>
+}

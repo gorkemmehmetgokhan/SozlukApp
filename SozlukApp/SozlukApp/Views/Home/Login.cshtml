@@ -1,0 +1,33 @@
+﻿@using SozlukApp.Entity
+@model User
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<body class="login-body" >
+    <div class="container" style="width:400px;margin-top:50px">
+
+        <form class="form-signin" method="post" action="~/Home/Login">
+            @Html.AntiForgeryToken()
+            
+            <div class="login-wrap">
+
+                <input type="text" name="Username" class="form-control" placeholder="Kullanıcı Adı" autofocus required><br />
+
+                <input type="password" name="Password" class="form-control" placeholder="Şifre" required><br />
+
+                <button class="btn btn-lg btn-login btn-block" type="submit">Giriş Yap</button>
+
+                <div class="registration">
+                   Henüz üye değil misin?
+                    <a class="" href="~/Home/SignUp">
+                        Kayıt Ol
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+    </body>

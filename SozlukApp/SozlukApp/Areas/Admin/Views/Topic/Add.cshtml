@@ -1,0 +1,34 @@
+﻿@using SozlukApp.Entity
+@model Topic
+
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    
+    <fieldset class="table table-hover">
+        <legend>Topic</legend>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>   
+        <br />  
+        <p>
+            <input type="submit" class="btn btn-success" value="Ekle" />
+        </p>
+    </fieldset>
+}
+
+
+<div>
+    @Html.ActionLink("Geri Dön", "List")
+</div>

@@ -1,0 +1,16 @@
+﻿
+@using (Html.BeginForm("Search", "Home", FormMethod.Get))
+{
+    <div style="position:center;margin-top:30px;margin-left:250px;">
+        <sdiv class="col-lg-5">
+            <div class="input-group">
+                <input type="search" name="searchText" class="form-control" placeholder="başlık, entry ya da yazar ara.." required>
+                <span class="input-group-btn">
+                    <button class="btn btn-success" type="submit">Ara</button>
+                </span>
+            </div>
+            <!-- /input-group -->
+        </sdiv><!-- /.col-lg-6 -->
+    </div><!-- /.row -->
+}
+

@@ -1,0 +1,35 @@
+﻿@using SozlukApp.Entity
+@model IEnumerable<Entry>
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<table class="table table-hover">
+    <tr>
+        <th>@Html.DisplayNameFor(t => t.EntryId)</th>
+        <th>@Html.DisplayNameFor(t => t.Text)</th>
+        <th>@Html.DisplayNameFor(t => t.Posttime)</th>
+        <th>Like</th>
+        <th>Unlike</th>
+        <th>Düzenle</th>
+    </tr>
+    @foreach(Entry item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(t => item.EntryId)</td>
+            
+            <td>@Html.DisplayFor(t => item.Text)</td>
+            <td>@Html.DisplayFor(t => item.Posttime)</td>
+            <td>@Html.DisplayFor(t => item.LikeCount)</td>
+            <td>@Html.DisplayFor(t => item.UnlikeCount)</td>
+            <td>
+                <a href="~/Admin/Entry/Edit/@item.EntryId" class="btn btn-success">Edit</a>
+                <a href="~/Admin/Entry/Delete/@item.EntryId" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
+

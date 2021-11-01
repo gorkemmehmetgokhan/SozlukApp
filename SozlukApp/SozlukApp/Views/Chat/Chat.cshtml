@@ -1,0 +1,143 @@
+﻿@using SozlukApp.Repository
+@using SozlukApp.Entity
+@{
+    ViewBag.Title = "Chat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/scripts/jquery.signalR-2.2.2.min.js"></script>
+<script src="~/scripts/jquery-3.2.1.min.js"></script>
+<script src="~/scripts/jquery.signalR-2.2.2.js"></script>
+<script src="~/SignalR/Hubs"></script>
+
+@{
+    DB_DictionaryEntities ctx = new DB_DictionaryEntities();
+    User user = new User();
+    int id = Convert.ToInt32(User.Identity.Name);
+    user.Username = ctx.Users.Where(x => x.UserId == id).Select(x => x.Username).First().ToString();
+
+}
+<head>
+    <style>
+        .chat {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+            .chat li {
+                margin-bottom: 10px;
+                padding-bottom: 5px;
+                border-bottom: 1px dotted #B3A9A9;
+            }
+
+                .chat li.left .chat-body {
+                    margin-left: 60px;
+                }
+
+                .chat li.right .chat-body {
+                    margin-right: 60px;
+                }
+
+
+                .chat li .chat-body p {
+                    margin: 0;
+                    color: #777777;
+                }
+
+            .panel .slidedown .glyphicon, .chat .glyphicon {
+                margin-right: 5px;
+            }
+
+        .body-panel {
+            overflow-y: scroll;
+            height: 250px;
+        }
+
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+            background-color: #F5F5F5;
+        }
+
+        ::-webkit-scrollbar {
+            width: 12px;
+            background-color: #F5F5F5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+            background-color: #555;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+            $(function () {
+
+                var chat = $.connection.chatHub;
+                var $username = '@user.Username';
+                var $message = $('#txtMessage');
+                var $messages = $('#messages');
+
+                $message.focus();
+
+                chat.client.sendMessage = function (name, message) {
+
+                    //$messages.append('<li><strong>' + name + '</strong>: ' + message + '</li>');
+
+                    $messages.append('<table><tr><td><strong>' + name + '</strong> : ' + message + '</td></td></table>');
+                };
+
+                $.connection.hub.start().done(function () {
+                    $('#btnSendMessage').click(function () {
+
+                        chat.server.send($username, $message.val());
+
+                        $message.val('').focus();
+                    });
+                });
+            });
+
+        });
+
+    </script>
+</head>
+
+<body>
+   
+    <div class="container" style="margin-left:-215px;margin-top:75px">
+        <div class="row form-group">
+            <div class="col-xs-12 col-md-offset-2 col-md-8 col-lg-8 col-lg-offset-2">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-comment"></span> Sohbet
+                       
+                    </div>
+                    <div class="panel-body body-panel">
+                        <ul class="chat">
+                            <li class="left clearfix">
+                               
+                                <div class="chat-body clearfix">                                
+                                    <p id="messages">
+                                       
+                                    </p>
+                                </div>
+                            </li>
+                                                   
+                        </ul>
+                    </div>
+                    <div class="panel-footer clearfix">
+                        <textarea id="txtMessage" class="form-control" rows="3"></textarea>
+
+                        <span class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-xs-12" style="margin-top: 10px">
+                            <button class="btn btn-warning btn-lg btn-block" id="btnSendMessage">Send</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+

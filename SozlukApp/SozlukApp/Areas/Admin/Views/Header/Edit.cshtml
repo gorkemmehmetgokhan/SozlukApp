@@ -1,0 +1,44 @@
+﻿@using SozlukApp.Entity
+@model Header
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Topic</legend>
+        @Html.HiddenFor(model => model.HeaderId)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TopicId)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TopicId)
+            @Html.ValidationMessageFor(model => model.TopicId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <br />
+        <p>
+            <input type="submit" class="btn btn-success" s value="Kaydet" />
+        </p>
+    </fieldset>
+}
+
+
+<div>
+    @Html.ActionLink("Geri Dön", "List")
+</div>
+
